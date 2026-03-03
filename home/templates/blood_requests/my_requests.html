@@ -1,0 +1,34 @@
+{% extends 'dashboard_base.html' %}
+
+{% block dashboard_content %}
+<h2>🩺 My Blood Requests</h2>
+
+<table class="table table-bordered">
+    <tr>
+        <th>Date</th>
+        <th>Blood Group</th>
+        <th>Units</th>
+        <th>Status</th>
+    </tr>
+    {% for r in requests %}
+    <tr>
+        <td>{{ r.created_at|date:"d M Y" }}</td>
+        <td>{{ r.blood_group }}</td>
+        <td>{{ r.units_required }}</td>
+        <!-- <td>{{ r.status }}</td> -->
+         <td>
+    {% if r.status == "PENDING" %}
+        <span class="badge bg-warning text-dark">Pending</span>
+    {% elif r.status == "APPROVED" %}
+        <span class="badge bg-success">Approved</span>
+    {% elif r.status == "REJECTED" %}
+        <span class="badge bg-danger">Rejected</span>
+    {% elif r.status == "COMPLETED" %}
+        <span class="badge bg-primary">Completed</span>
+    {% endif %}
+</td>
+
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

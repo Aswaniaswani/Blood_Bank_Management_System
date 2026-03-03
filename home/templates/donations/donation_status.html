@@ -1,0 +1,36 @@
+{% extends 'dashboard_base.html' %}
+
+{% block dashboard_content %}
+
+<h3>📋 Donation Status</h3>
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Units</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in requests %}
+        <tr>
+            <td>{{ r.units }}</td>
+            <td>
+                {% if r.approved %}
+                    <span class="badge bg-success">Approved</span>
+                {% elif r.rejected %}
+                    <span class="badge bg-danger">Rejected</span>
+                {% else %}
+                    <span class="badge bg-warning">Pending</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="2" class="text-center text-muted">No requests found</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'dashboard_base.html' %}
+
+{% block dashboard_content %}
+<h2>📊 Stock Transaction History</h2>
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Blood Group</th>
+            <th>Type</th>
+            <th>Units</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for t in transactions %}
+        <tr>
+            <td>{{ t.date|date:"d M Y H:i" }}</td>
+            <td>{{ t.blood_group }}</td>
+            <td>
+                {% if t.transaction_type == "ADD" %}
+                    <span class="badge bg-success">Added</span>
+                {% else %}
+                    <span class="badge bg-warning">Issued</span>
+                {% endif %}
+            </td>
+            <td>{{ t.change }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4" class="text-center">No transactions found</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{% url 'stock_report' %}" class="btn btn-secondary">⬅ Back to Stock</a>
+{% endblock %}

@@ -1,0 +1,188 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Bank Management System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    
+    .hero-section {
+        height: 400px;
+    background: url("{% static 'images/blood.jpg' %}") no-repeat center center;
+    background-size: cover;
+    position: relative;
+    color: #fff;
+    padding: 80px 0;
+    text-align: center;
+}
+
+/* Overlay to darken image for readability */
+.hero-section::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(0, 0, 0, 0.4); /* adjust opacity */
+    z-index: 1;
+}
+
+.hero-section .container {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-section h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.hero-section p {
+    font-size: 1.2rem;
+}
+
+    .card-hover:hover {
+        transform: translateY(-5px);
+        transition: 0.3s;
+    }
+    .fade-in {
+    opacity: 0;
+    animation: fadeInAnimation 2s forwards; /* 2 seconds duration */
+    animation-delay: 1s; /* delay before starting */
+}
+
+@keyframes fadeInAnimation {
+    to {
+        opacity: 1;
+    }
+}
+</style>
+
+</head>
+<body>
+
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <h1>Blood Bank Management System</h1>
+        <p>Donate, Request, and Save Lives</p>
+        <a href="{% url 'login' %}" class="btn btn-danger btn-lg mt-3">
+            <i class="fa-solid fa-right-to-bracket"></i> Login
+        </a>
+        <!-- Donation Quote -->
+        <p class="mt-4 fs-4 fst-italic fade-in">
+            "The gift of blood is the gift of life. Donate today and save a life!" 🩸
+        </p>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="container my-5">
+    <div class="row g-4 text-center">
+
+        <div class="col-md-3">
+            <div class="card card-hover shadow h-100">
+                <div class="card-body">
+                    <i class="fa-solid fa-user-doctor fa-3x text-danger mb-3"></i>
+                    <h5 class="card-title">Donors</h5>
+                    <p class="card-text">Register as a donor and save lives by donating blood.</p>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card card-hover shadow h-100">
+                <div class="card-body">
+                    <i class="fa-solid fa-hospital fa-3x text-primary mb-3"></i>
+                    <h5 class="card-title">Receivers</h5>
+                    <p class="card-text">Request blood for emergency or hospital needs.</p>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card card-hover shadow h-100">
+                <div class="card-body">
+                    <i class="fa-solid fa-gears fa-3x text-success mb-3"></i>
+                    <h5 class="card-title">Staff</h5>
+                    <p class="card-text">Manage blood stocks, Available Blood Units.</p>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card card-hover shadow h-100">
+                <div class="card-body">
+                    <i class="fa-solid fa-user-shield fa-3x text-warning mb-3"></i>
+                    <h5 class="card-title">Admin</h5>
+                    <p class="card-text">Oversee the entire system, camps, and blood requests.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- Donor Instructions Section -->
+<section class="container my-5">
+    <div class="card shadow">
+        <div class="card-body"><br>
+            <h3 class="text-center text-danger mb-4">
+                <i class="fa-solid fa-droplet"></i> Instructions for Blood Donors
+            </h3>
+
+            <div class="row">
+                <div class="col-md-6" >
+                    <h5 class="text-success">
+                        <i class="fa-solid fa-check-circle"></i> Before Donation
+                    </h5>
+                    <ul>
+                        <li>Donor must be between <strong>18–60 years</strong> of age.</li>
+                        <li>Minimum weight should be <strong>50 kg</strong>.</li>
+                        <li>Have a healthy meal and drink plenty of water.</li>
+                        <li>Avoid alcohol for at least <strong>24 hours</strong>.</li>
+                        <li>Get adequate sleep before donating.</li>
+                    </ul>
+                </div>
+
+                <div class="col-md-6">
+                    <h5 class="text-primary">
+                        <i class="fa-solid fa-heart-pulse"></i> During & After Donation
+                    </h5>
+                    <ul>
+                        <li>Relax and stay calm during the donation process.</li>
+                        <li>The donation takes about <strong>10–15 minutes</strong>.</li>
+                        <li>Rest for at least <strong>15 minutes</strong> after donation.</li>
+                        <li>Drink fluids and avoid heavy exercise for the day.</li>
+                        <li>Next donation is allowed after <strong>3 months</strong>.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="alert alert-warning mt-4 text-center">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                Donors with fever, recent surgery, infections, or chronic illnesses
+                should consult medical staff before donating blood.
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Footer -->
+<footer class="text-center py-4 bg-dark text-white">
+    <p>© 2026 Blood Bank Management System | All Rights Reserved</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

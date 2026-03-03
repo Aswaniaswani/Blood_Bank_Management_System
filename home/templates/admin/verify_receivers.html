@@ -1,0 +1,42 @@
+{% extends 'dashboard_base.html' %}
+
+{% block dashboard_content %}
+<h3>Pending Receiver Verifications</h3>
+
+<!-- <h4 class="mt-4">Pending Receiver Verifications</h4> -->
+
+<table class="table table-bordered">
+    <tr>
+        <th>Username</th>
+        <th>Hospital</th>
+        <th>Action</th>
+    </tr>
+
+    {% for receiver in unverified_receivers %}
+    <tr>
+        <td>{{ receiver.user.username }}</td>
+        <td>{{ receiver.hospital }}</td>
+        <td>
+            <form method="post" action="{% url 'verify_receiver' receiver.id %}" class="d-inline">
+                {% csrf_token %}
+                <button class="btn btn-success btn-sm">Verify</button>
+            </form>
+            <!-- Reject -->
+    <form method="post"
+          action="{% url 'reject_receiver' receiver.id %}"
+          class="d-inline ms-1">
+        {% csrf_token %}
+        <button class="btn btn-danger btn-sm">Reject</button>
+    </form>
+            
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="3" class="text-center">No pending verifications</td>
+    </tr>
+    {% endfor %}
+</table>
+
+
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'dashboard_base.html' %}
+
+{% block dashboard_content %}
+<h3>🛡 Donation Requests</h3>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Donor</th>
+            <th>Blood Group</th>
+            <th>Units</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in requests %}
+        <tr>
+            <td>{{ r.donor.user.username }}</td>
+            <td>{{ r.donor.blood_group }}</td>
+            <td>{{ r.units }}</td>
+            <td>
+                <a href="{% url 'approve_donation' r.id %}" class="btn btn-success btn-sm">Approve</a>
+                <a href="{% url 'reject_donation' r.id %}" class="btn btn-danger btn-sm">Reject</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4" class="text-center text-muted">No pending donations</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

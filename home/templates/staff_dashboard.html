@@ -1,0 +1,89 @@
+{% extends 'dashboard_base.html' %}
+
+{% block dashboard_content %}
+
+<!-- Dashboard Header -->
+<div class="mb-4 text-center">
+    <h3 class="fw-bold">Staff Dashboard</h3>
+    <p class="text-muted mb-0">
+        Welcome back, <strong>{{ request.user.username }}</strong>
+    </p>
+</div>
+
+<!-- Summary Cards -->
+<div class="row g-4 mb-5">
+
+    <!-- Total Blood Units -->
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0 h-100 text-center">
+            <div class="card-body">
+                <div class="mb-2 text-primary fs-1">
+                    <i class="bi bi-droplet-fill"></i>
+                </div>
+                <h6 class="text-muted">Total Blood Units</h6>
+                <p class="fs-2 fw-bold text-primary mb-2">
+                    {{ total_units }}
+                </p>
+                <a href="{% url 'stock_report' %}" class="btn btn-outline-primary btn-sm">
+                    View Stock
+                </a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Blood Group Stock Levels -->
+<div class="mb-3">
+    <h5 class="fw-semibold">Blood Group Levels</h5>
+    <p class="text-muted small">
+        Current availability of blood units by group
+    </p>
+</div>
+
+<div class="row g-4">
+    {% for stock in stock_status %}
+    <div class="col-md-2 col-sm-4">
+        <div class="card shadow-sm border-start border-4 border-{{ stock.status }} h-100">
+            <div class="card-body text-center">
+                <h6 class="fw-bold mb-1">{{ stock.blood_group }}</h6>
+                <p class="fs-5 fw-semibold text-{{ stock.status }} mb-0">
+                    {{ stock.units }} units
+                </p>
+                <small class="text-muted d-block mt-1">
+                    {{ stock.tooltip }}
+                </small>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Pending Donation Requests -->
+{% if pending_donations %}
+<div class="mt-5">
+    <h5 class="fw-semibold mb-3">Pending Donation Requests</h5>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-0">
+            <ul class="list-group list-group-flush">
+                {% for req in pending_donations %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <strong>{{ req.donor.user.username }}</strong>
+                        <span class="text-muted small d-block">
+                            Blood Group: {{ req.donor.blood_group }}
+                        </span>
+                    </div>
+                    <span class="badge bg-primary rounded-pill">
+                        {{ req.units }} units
+                    </span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

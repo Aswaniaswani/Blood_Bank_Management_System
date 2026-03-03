@@ -1,0 +1,37 @@
+{% extends 'dashboard_base.html' %}
+
+{% block dashboard_content %}
+<h2>Request Blood</h2>
+
+<form method="post">
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <label>Blood Group</label>
+        <select name="blood_group" class="form-select">
+            <option>A+</option><option>A-</option>
+            <option>B+</option><option>B-</option>
+            <option>O+</option><option>O-</option>
+            <option>AB+</option><option>AB-</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label>Units Required</label>
+        <input type="number" name="units_required" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+        <label>Required Date</label>
+        <input type="date" name="required_date" class="form-control">
+    </div>
+    <div class="form-check mb-3">
+        {{ form.emergency }}
+        <label class="form-check-label">
+            Emergency Request
+        </label>
+    </div>
+
+    <button class="btn btn-danger">Submit Request</button>
+</form>
+{% endblock %}

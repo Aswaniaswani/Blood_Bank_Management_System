@@ -1,0 +1,39 @@
+{% extends 'dashboard_base.html' %}
+
+{% block dashboard_content %}
+<h2>All Blood Requests</h2>
+
+<table class="table table-bordered table-hover shadow">
+    <tr class="table-secondary">
+        <th>Receiver</th>
+        <th>Blood Group</th>
+        <th>Units</th>
+        <th>Status</th>
+        <th>Action</th>
+    </tr>
+
+    {% for r in requests %}
+    <tr>
+        <td>{{ r.receiver.user.username }}</td>
+        <td>{{ r.blood_group }}</td>
+        <td>{{ r.units_required }}</td>
+        <td>{{ r.status }}</td>
+        <td>
+            {% if r.status == "PENDING" %}
+            <form method="post" action="{% url 'update_request_status' r.id 'approve' %}" style="display:inline;">
+                {% csrf_token %}
+                <button class="btn btn-success btn-sm">Approve</button>
+            </form>
+
+            <form method="post" action="{% url 'update_request_status' r.id 'reject' %}" style="display:inline;">
+                {% csrf_token %}
+                <button class="btn btn-danger btn-sm">Reject</button>
+            </form>
+            {% else %}
+            ---
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

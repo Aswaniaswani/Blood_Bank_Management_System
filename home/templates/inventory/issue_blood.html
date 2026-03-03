@@ -1,0 +1,26 @@
+{% extends 'dashboard_base.html' %}
+
+{% block dashboard_content %}
+<h2>➖ Issue Blood Units</h2>
+
+<form method="post" class="mt-4">
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <label class="form-label">Blood Group</label>
+        <select name="blood_group" class="form-select" required>
+            {% for bg in blood_groups %}
+            <option value="{{ bg.0 }}">{{ bg.1 }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Units</label>
+        <input type="number" name="units" class="form-control" min="1" required>
+    </div>
+
+    <button type="submit" class="btn btn-danger">Issue Blood</button>
+    <a href="{% url 'stock_report' %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'dashboard_base.html' %}
+
+{% block dashboard_content %}
+
+<h4>All Camps</h4>
+
+{% if role == "ADMIN" %}
+<a href="{% url 'create_camp' %}" class="btn btn-primary mb-3">
+    + Create New Camp
+</a>
+{% endif %}
+
+<table class="table table-bordered table-hover">
+    <tr class="table-secondary">
+        <th>Name</th>
+        <th>Date</th>
+        <th>Location</th>
+        <th>Description</th>
+        {% if role == "DONOR" %}
+        <th>Action</th>
+        {% endif %}
+    </tr>
+
+    {% for camp in camps %}
+    <tr>
+        <td>{{ camp.name }}</td>
+        <td>{{ camp.date }}</td>
+        <td>{{ camp.location }}</td>
+        <td>{{ camp.description }}</td>
+
+        {% if role == "DONOR" %}
+        <td>
+            {% if camp.id in registered_camps %}
+                <span class="badge bg-success">Registered</span>
+            {% else %}
+                <a href="{% url 'register_camp' camp.id %}" class="btn btn-success btn-sm">
+                    Register
+                </a>
+            {% endif %}
+        </td>
+        {% endif %}
+
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="{% if role == 'DONOR' %}5{% else %}4{% endif %}" class="text-center">
+            No camps created
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

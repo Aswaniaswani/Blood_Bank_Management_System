@@ -1,0 +1,113 @@
+{% extends 'dashboard_base.html' %}
+
+{% block dashboard_content %}
+<h2 class="mb-1">Donor Dashboard</h2>
+<p class="text-muted mb-0 ">
+    Welcome, <strong>{{ request.user.username }}</strong>
+</p>
+<!-- ================= Notification Popup ================= --><!-- ================= Notification Popup ================= -->
+{% if unread_notifications %}
+<div id="notification-popup" class="position-fixed top-0 end-0 m-3" style="z-index:1050; width:360px;">
+    <div class="alert alert-dismissible fade show position-relative p-0 shadow-sm">
+        <!-- Header -->
+        <div class="bg-danger text-white d-flex justify-content-between align-items-center p-2 rounded-top">
+            <strong>🔔 Notifications</strong>
+            <button type="button" class="btn-close btn-close-white" aria-label="Close"
+                    onclick="document.getElementById('notification-popup').style.display='none';"></button>
+        </div>
+
+        <!-- Notification List -->
+        <ul class="list-unstyled mb-0" style="max-height: 400px; overflow-y: auto; padding: 10px;">
+            {% for notif in unread_notifications %}
+            <li class="mb-2 p-2 rounded 
+                {% if notif.notif_type == 'EMERGENCY' %} border-start border-4 border-danger bg-light
+                {% elif notif.notif_type == 'CAMP' %} border-start border-4 border-success bg-light
+                {% else %} border-start border-4 border-info bg-light
+                {% endif %}">
+                
+                <div class="d-flex align-items-start">
+                    <!-- Icon -->
+                    <div class="me-2 mt-1">
+                        {% if notif.notif_type == 'EMERGENCY' %}
+                            <i class="fa-solid fa-triangle-exclamation fa-lg text-danger"></i>
+                        {% elif notif.notif_type == 'CAMP' %}
+                            <i class="fa-solid fa-tents fa-lg text-success"></i>
+                        {% else %}
+                            <i class="fa-solid fa-info-circle fa-lg text-info"></i>
+                        {% endif %}
+                    </div>
+
+                    <!-- Message -->
+                    <div class="flex-grow-1">
+                        <p class="mb-1 small" style="white-space: pre-line;">{{ notif.message }}</p>
+                        <small class="text-muted">{{ notif.created_at|date:"M d, Y H:i" }}</small>
+                    </div>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+
+        <!-- Footer: Mark all as read -->
+        <div class="text-center p-2 border-top">
+            <form method="post" action="{% url 'mark_all_notifications_read' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-sm btn-outline-primary w-100">
+                    Mark All as Read
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<div class="text-center mb-4">
+    {% if donor.available %}
+        <span class="badge bg-success fs-6 px-4 py-2">
+            ✅ Available for Donation
+        </span>
+    {% else %}
+        <span class="badge bg-secondary fs-6 px-4 py-2">
+            ❌ Not Available
+        </span>
+    {% endif %}
+</div>
+
+{% if not donor.available and donor.last_donation %}
+<p class="text-center text-muted">
+    Last donation on {{ donor.last_donation }} <br>
+    Available after 90 days
+</p>
+{% endif %}
+
+<div class="card p-4 mb-4">
+    <p><strong>Blood Group:</strong> {{ donor.blood_group }}</p>
+    <p><strong>Age:</strong> {{ donor.age }}</p>
+    <p><strong>Weight:</strong> {{ donor.weight }} kg</p>
+    <p><strong>Last Donation:</strong> {{ donor.last_donation|default:"Never" }}</p>
+
+    <a href="{% url 'edit_donor_profile' %}" class="btn btn-outline-danger">
+        Edit Profile
+    </a>
+</div>
+
+<h4>Donation History</h4>
+<table class="table table-bordered">
+    <tr>
+        <th>Date</th>
+        <th>Quantity</th>
+    </tr>
+    {% for item in history %}
+    <tr>
+        <td>{{ item.date }}</td>
+        <td>{{ item.units }}</td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="2" class="text-center">No donations yet</td>
+    </tr>
+    {% endfor %}
+</table>
+
+
+
+{% endblock %}
